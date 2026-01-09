@@ -1,3 +1,5 @@
-add_library(libbase INTERFACE)
+add_library(libbase STATIC
+        libbase/configure_working_directory.cpp
+)
 
-target_include_directories(libbase INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(libbase PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

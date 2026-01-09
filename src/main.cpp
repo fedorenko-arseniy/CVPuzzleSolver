@@ -1,3 +1,4 @@
+#include <libbase/configure_working_directory.h>
 #include <libimages/image.h>
 #include <libimages/image_io.h>
 
@@ -5,6 +6,8 @@
 
 int main() {
     try {
+        configureWorkingDirectory();
+
         image8u image = load_image("data/00_photo_six_parts.jpg");
 
         image8u image_copy(image.width(), image.height(), image.channels());
