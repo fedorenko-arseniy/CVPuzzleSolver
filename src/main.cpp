@@ -57,12 +57,15 @@ int main() {
         // TODO make mask more smooth thanks to morphology
         // TODO firstly try dilation + erosion, is the mask robust? no outliers?
         int strength = 3;
-        image8u dilated_mask = morphology::dilate(is_foreground_mask, strength);
-        image8u dilated_eroded_mask = morphology::erode(dilated_mask, strength);
-        image8u dilated_eroded_eroded_mask = morphology::erode(dilated_eroded_mask, strength);
-        image8u dilated_eroded_eroded_dilated_mask = morphology::dilate(dilated_eroded_eroded_mask, strength);
+
+        const bool with_openmp = true;
+        image8u dilated_mask = morphology::dilate(is_foreground_mask, strength, with_openmp);
+        image8u dilated_eroded_mask = morphology::erode(dilated_mask, strength, with_openmp);
+        image8u dilated_eroded_eroded_mask = morphology::erode(dilated_eroded_mask, strength, with_openmp);
+        image8u dilated_eroded_eroded_dilated_mask = morphology::dilate(dilated_eroded_eroded_mask, strength, with_openmp);
         is_foreground_mask = dilated_eroded_eroded_dilated_mask;
-        std::cout << "morphology in " << t.elapsed() << " sec" << std::endl;
+        std::cout << "full morphology in " << t.elapsed() << " sec" << std::endl;
+
         debug_io::dump_image("debug/03_is_foreground_dilated.png", dilated_mask);
         debug_io::dump_image("debug/04_is_foreground_dilated_eroded.png", dilated_eroded_mask);
         debug_io::dump_image("debug/05_is_foreground_dilated_eroded_eroded.png", dilated_eroded_eroded_mask);

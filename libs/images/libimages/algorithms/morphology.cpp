@@ -16,7 +16,7 @@ static void check_binary_01_255(const image8u& src) {
     }
 }
 
-image8u erode(const image8u& src, int strength) {
+image8u erode(const image8u& src, int strength, bool with_openmp) {
     rassert(strength >= 0, "erode: strength must be >= 0", strength);
     check_binary_01_255(src);
 
@@ -30,6 +30,7 @@ image8u erode(const image8u& src, int strength) {
         return dst;
     }
 
+    #pragma omp parallel for if(with_openmp)
     for (int j = 0; j < h; ++j) {
         for (int i = 0; i < w; ++i) {
             // Zero padding: if the neighborhood goes outside, erosion must be 0.
@@ -54,7 +55,7 @@ image8u erode(const image8u& src, int strength) {
     return dst;
 }
 
-image8u dilate(const image8u& src, int strength) {
+image8u dilate(const image8u& src, int strength, bool with_openmp) {
     rassert(strength >= 0, "dilate: strength must be >= 0", strength);
     check_binary_01_255(src);
 
@@ -68,6 +69,7 @@ image8u dilate(const image8u& src, int strength) {
         return dst;
     }
 
+    #pragma omp parallel for if(with_openmp)
     for (int j = 0; j < h; ++j) {
         for (int i = 0; i < w; ++i) {
             const int y0 = std::max(0, j - strength);

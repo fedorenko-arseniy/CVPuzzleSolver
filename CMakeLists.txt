@@ -5,6 +5,19 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# OpenMP is used (can be not found on macos) for algorithm speedup via CPU multi-core parallelism, f.e.:
+#
+# #pragma omp parallel for
+# for (int i = 0; i < n; ++i) {
+#     ... // in such way inner part of code will be executed in parallel
+# }
+find_package(OpenMP)
+if (OpenMP_CXX_FOUND)
+    message(STATUS "Looking for OpenMP - found")
+else()
+    message(STATUS "Looking for OpenMP - not found")
+endif()
+
 include(CTest)
 if (BUILD_TESTING)
     # Keep gtest lightweight

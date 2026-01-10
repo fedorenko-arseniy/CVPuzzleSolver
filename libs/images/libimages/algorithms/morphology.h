@@ -12,7 +12,7 @@ namespace morphology {
     //
     // strength == 0 -> returns a copy.
 
-    image8u erode(const image8u& src, int strength);
-    image8u dilate(const image8u& src, int strength);
+    image8u erode(const image8u& src, int strength, bool with_openmp=true);
+    image8u dilate(const image8u& src, int strength, bool with_openmp=true);
 
 } // namespace morphology

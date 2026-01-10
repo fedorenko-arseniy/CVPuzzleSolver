@@ -9,6 +9,9 @@ add_library(libimages STATIC
 
 target_include_directories(libimages PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(libimages PUBLIC libbase PRIVATE third_party_stb)
+if (OpenMP_CXX_FOUND)
+    target_link_libraries(libimages PRIVATE OpenMP::OpenMP_CXX)
+endif()
 
 if (BUILD_TESTING)
     add_executable(libimages_tests
